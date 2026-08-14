@@ -1,0 +1,486 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #222;
+}
+
+header {
+    background-color: #b71c1c;
+    color: white;
+    padding: 20px 60px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 28px;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.hero {
+    min-height: 500px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 40px;
+}
+
+.hero-text {
+    max-width: 700px;
+}
+
+.hero h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+button {
+    background-color: #d32f2f;
+    color: white;
+
+    border: none;
+    padding: 14px 25px;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    margin: 5px;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #9a0007;
+}
+.how-it-works {
+    padding: 60px 40px;
+    text-align: center;
+    background-color: white;
+}
+
+.how-it-works h2 {
+    font-size: 35px;
+    margin-bottom: 40px;
+}
+
+.steps {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.step {
+    width: 280px;
+    padding: 30px;
+
+    background-color: #f8f9fa;
+
+    border-radius: 12px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.step h3 {
+    margin-bottom: 15px;
+}
+
+.step p {
+    line-height: 1.5;
+}
+.features {
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 35px;
+    margin-bottom: 40px;
+}
+
+.feature-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.feature {
+    width: 280px;
+    padding: 30px;
+
+    background-color: white;
+
+    border-radius: 12px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.feature h3 {
+    margin-bottom: 15px;
+}
+
+.feature p {
+    line-height: 1.5;
+}
+.blood-request {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 40px;
+
+    background-color: white;
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.blood-request h2 {
+    text-align: center;
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.blood-request > p {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.blood-request form {
+    display: flex;
+    flex-direction: column;
+}
+
+.blood-request label {
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.blood-request input,
+.blood-request select {
+    padding: 12px;
+
+    border: 1px solid #ccc;
+    border-radius: 7px;
+
+    font-size: 16px;
+}
+
+.blood-request input:focus,
+.blood-request select:focus {
+    outline: none;
+    border-color: #d32f2f;
+}
+
+.blood-request button {
+    margin-top: 25px;
+}
+.donor-registration {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 40px;
+
+    background-color: white;
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.donor-registration h2 {
+    text-align: center;
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.donor-registration > p {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.donor-registration form {
+    display: flex;
+    flex-direction: column;
+}
+
+.donor-registration label {
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.donor-registration input,
+.donor-registration select {
+    padding: 12px;
+
+    border: 1px solid #ccc;
+    border-radius: 7px;
+
+    font-size: 16px;
+}
+
+.donor-registration input:focus,
+.donor-registration select:focus {
+    outline: none;
+    border-color: #d32f2f;
+}
+
+.donor-registration button {
+    margin-top: 25px;
+}
+.matching-section {
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.matching-section h2 {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.matching-subtitle {
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.donor-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.donor-card {
+    width: 300px;
+    padding: 30px;
+
+    background-color: white;
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+
+    text-align: left;
+}
+
+.donor-card h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.donor-card p {
+    margin-bottom: 12px;
+}
+
+.available {
+    font-weight: bold;
+}
+
+.match-score {
+    margin-top: 20px;
+    padding: 12px;
+
+    background-color: #ffebee;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    font-weight: bold;
+}
+
+.donor-card button {
+    width: 100%;
+    margin-top: 20px;
+}
+/* ============================= */
+/* HOME PAGE IMPROVEMENTS */
+/* ============================= */
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.hero-buttons a {
+    text-decoration: none;
+}
+
+
+/* ============================= */
+/* QUICK ACCESS */
+/* ============================= */
+
+.quick-access {
+    padding: 60px 40px;
+    text-align: center;
+    background-color: white;
+}
+
+.quick-access h2 {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.quick-access p {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+
+/* ============================= */
+/* FOOTER */
+/* ============================= */
+
+footer {
+    background-color: #7f0000;
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+footer p {
+    margin: 8px;
+    line-height: 1.5;
+}
+
+
+/* ============================= */
+/* DASHBOARD */
+/* ============================= */
+
+.dashboard-section {
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.dashboard-section > h2 {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.dashboard-cards {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+
+.dashboard-card {
+    width: 220px;
+    padding: 30px 20px;
+
+    background-color: white;
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card h3 {
+    margin-bottom: 15px;
+}
+
+.dashboard-card p {
+    font-size: 32px;
+    font-weight: bold;
+    color: #d32f2f;
+}
+
+
+/* Blood group section */
+
+#blood-group-list {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+
+/* Dashboard buttons */
+
+.dashboard-actions {
+    margin-top: 50px;
+}
+
+.dashboard-actions h2 {
+    margin-bottom: 15px;
+}
+
+
+/* ============================= */
+/* NAVIGATION HOVER */
+/* ============================= */
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+
+/* ============================= */
+/* MOBILE RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 700px) {
+
+    header {
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero h2 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 17px;
+    }
+
+    .dashboard-section {
+        padding: 40px 20px;
+    }
+
+}

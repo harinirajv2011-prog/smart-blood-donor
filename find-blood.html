@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Find Blood - Smart Blood Donor</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Smart Blood Donor</h1>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="find-blood.html">Find Blood</a>
+            <a href="#">Become a Donor</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="blood-request">
+
+            <h2>Find a Blood Donor</h2>
+
+            <p>
+                Enter the details below to find suitable
+                blood donors.
+            </p>
+
+            <form id="blood-request-form">
+
+                <label for="patient-name">Patient Name</label>
+                <input type="text" id="patient-name"
+                       placeholder="Enter patient name">
+
+
+                <label for="blood-group">Blood Group</label>
+
+                <select id="blood-group">
+
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+
+                </select>
+
+
+                <label for="location">Location</label>
+
+                <input type="text" id="location"
+                       placeholder="Enter city or location">
+
+
+                <label for="hospital">Hospital</label>
+
+                <input type="text" id="hospital"
+                       placeholder="Enter hospital name">
+
+
+                <label for="units">Units Required</label>
+
+                <input type="number" id="units"
+                       min="1"
+                       placeholder="Number of units">
+
+
+                <label for="urgency">Urgency</label>
+
+                <select id="urgency">
+
+                    <option value="">Select urgency</option>
+                    <option value="Emergency">Emergency</option>
+                    <option value="Urgent">Urgent</option>
+                    <option value="Normal">Normal</option>
+
+                </select>
+
+
+                <button type="submit">
+                    Find Matching Donors
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

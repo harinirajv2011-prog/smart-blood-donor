@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Smart Blood Donor Platform</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Smart Blood Donor</h1>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="find-blood.html">Find Blood</a>
+
+            <a href="become-donor.html">Become a Donor</a>
+
+            <a href="dashboard.html">Dashboard</a>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <section class="dashboard-section">
+
+            <h2>Dashboard</h2>
+
+            <p class="matching-subtitle">
+                Overview of blood donors and requests
+            </p>
+
+
+            <!-- Statistics -->
+
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+
+                    <h3>Total Donors</h3>
+
+                    <p id="total-donors">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <h3>Available Donors</h3>
+
+                    <p id="available-donors">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <h3>Blood Requests</h3>
+
+                    <p id="total-requests">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <h3>Matching Donors</h3>
+
+                    <p id="matching-donors">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Blood Group Availability -->
+
+            <div class="dashboard-section">
+
+                <h2>Blood Group Availability</h2>
+
+                <div id="blood-group-list">
+
+                    <!-- Blood groups will appear here -->
+
+                </div>
+
+            </div>
+
+
+            <!-- Quick Actions -->
+
+            <div class="dashboard-actions">
+
+                <h2>Quick Actions</h2>
+
+                <button onclick="window.location.href='find-blood.html'">
+                    Find Blood
+                </button>
+
+                <button onclick="window.location.href='become-donor.html'">
+                    Register as Donor
+                </button>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
