@@ -39,20 +39,66 @@ if (bloodForm) {
             return;
         }
 
-const bloodRequest = {
-    patientName: patientName,
-    bloodGroup: bloodGroup,
-    location: location,
-    hospital: hospital,
-    units: units,
-    urgency: urgency
-};
 
-localStorage.setItem(
-    "bloodRequest",
-    JSON.stringify(bloodRequest)
-);
-        window.location.href = "matching-results.html";
+        const bloodRequest = {
+            patientName: patientName,
+            bloodGroup: bloodGroup,
+            location: location,
+            hospital: hospital,
+            units: units,
+            urgency: urgency
+        };
+
+
+        localStorage.setItem(
+            "bloodRequest",
+            JSON.stringify(bloodRequest)
+        );
+
+
+        fetch("http://127.0.0.1:8000/api/requests", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                patient_name: patientName,
+                blood_group: bloodGroup,
+                city: location,
+                units_needed: Number(units)
+            })
+        })
+
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Failed to create blood request");
+            }
+
+            return response.json();
+
+        })
+
+        .then(data => {
+
+            console.log("Blood request created:", data);
+
+            window.location.href = "matching-results.html";
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            alert(
+                "Unable to create blood request. " +
+                "Please make sure the backend is running."
+            );
+
+        });
 
     });
 
@@ -104,35 +150,53 @@ if (donorForm) {
 
 
         const donor = {
-    name: donorName,
-    age: donorAge,
-    bloodGroup: donorBlood,
-    location: donorLocation,
-    phone: donorPhone,
-    lastDonation: lastDonation,
-    availability: availability
-};
+            name: donorName,
+            age: donorAge,
+            bloodGroup: donorBlood,
+            location: donorLocation,
+            phone: donorPhone,
+            lastDonation: lastDonation,
+            availability: availability
+        };
 
 
-let donors = JSON.parse(localStorage.getItem("donors")) || [];
+        fetch("http://127.0.0.1:8000/api/donors", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: donorName,
+                age: Number(donorAge),
+                blood_group: donorBlood,
+                phone: donorPhone,
+                city: donorLocation
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to register donor");
+            }
 
-donors.push(donor);
-
-localStorage.setItem("donors", JSON.stringify(donors));
-
-
-alert("Donor registered successfully!");
+            return response.json();
+        })
+        .then(data => {
+            alert("Donor registered successfully!");
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Unable to register donor. Please make sure the backend is running.");
+        });
 
     });
 
-}
+}   // THIS WAS MISSING
+
+
 const donorResults = document.getElementById("donor-results");
 const matchingTitle = document.getElementById("matching-title");
 
 if (donorResults) {
-
-    const donors =
-        JSON.parse(localStorage.getItem("donors")) || [];
 
     const bloodRequest =
         JSON.parse(localStorage.getItem("bloodRequest"));
@@ -146,93 +210,88 @@ if (donorResults) {
 
     } else {
 
-        const matchedDonors = donors.filter(function(donor) {
+        fetch(
+            "http://127.0.0.1:8000/api/match?blood_group=" +
+            encodeURIComponent(bloodRequest.bloodGroup) +
+            "&city=" +
+            encodeURIComponent(bloodRequest.location)
+        )
 
-            return (
-                donor.bloodGroup === bloodRequest.bloodGroup &&
-                donor.availability === "Available"
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch matching donors");
+            }
+
+            return response.json();
+
+        })
+
+        .then(data => {
+
+            const matchedDonors =
+                data.matching_donors.filter(function(donor) {
+                    return donor.available === 1;
+                });
+
+            localStorage.setItem(
+                "matchingDonorCount",
+                matchedDonors.length
             );
 
-        });
-        localStorage.setItem(
-    "matchingDonorCount",
-    matchedDonors.length
-);
-        if (matchingTitle) {
-    matchingTitle.textContent =
-        matchedDonors.length + " Matching Donors Found";
-}
-matchedDonors.sort(function(a, b) {
+            if (matchingTitle) {
 
-    let scoreA = 70;
-    let scoreB = 70;
+                matchingTitle.textContent =
+                    matchedDonors.length +
+                    " Matching Donors Found";
 
-    if (
-        a.location.toLowerCase() ===
-        bloodRequest.location.toLowerCase()
-    ) {
-        scoreA += 20;
-    }
+            }
 
-    if (
-        b.location.toLowerCase() ===
-        bloodRequest.location.toLowerCase()
-    ) {
-        scoreB += 20;
-    }
 
-    if (a.availability === "Available") {
-        scoreA += 10;
-    }
+            if (matchedDonors.length === 0) {
 
-    if (b.availability === "Available") {
-        scoreB += 10;
-    }
+                donorResults.innerHTML =
+                    "<p>No matching donors found.</p>";
 
-    return scoreB - scoreA;
-});
+                return;
+            }
 
-        if (matchedDonors.length === 0) {
-
-            donorResults.innerHTML =
-                "<p>No matching donors found.</p>";
-
-        } else {
 
             matchedDonors.forEach(function(donor) {
 
                 let score = 70;
 
                 if (
-                    donor.location.toLowerCase() ===
+                    donor.city.toLowerCase() ===
                     bloodRequest.location.toLowerCase()
                 ) {
                     score += 20;
                 }
 
-                if (donor.availability === "Available") {
+                if (donor.available === 1) {
                     score += 10;
                 }
 
 
                 donorResults.innerHTML += `
+
                     <div class="donor-card">
 
                         <h3>${donor.name}</h3>
 
                         <p>
                             <strong>Blood Group:</strong>
-                            ${donor.bloodGroup}
+                            ${donor.blood_group}
                         </p>
 
                         <p>
                             <strong>Location:</strong>
-                            ${donor.location}
+                            ${donor.city}
                         </p>
 
                         <p>
                             <strong>Availability:</strong>
-                            ${donor.availability}
+                            Available
                         </p>
 
                         <div class="match-score">
@@ -240,19 +299,31 @@ matchedDonors.sort(function(a, b) {
                         </div>
 
                         <button onclick="sendBloodRequest()">
-    Contact Donor
-</button>
+                            Contact Donor
+                        </button>
 
                     </div>
+
                 `;
 
             });
 
-        }
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            donorResults.innerHTML =
+                "<p>Unable to find donors. Please make sure the backend is running.</p>";
+
+        });
 
     }
 
 }
+
+
 function sendBloodRequest() {
 
     alert(
@@ -261,6 +332,8 @@ function sendBloodRequest() {
     );
 
 }
+
+
 const summaryPatient = document.getElementById("summary-patient");
 
 if (summaryPatient) {
@@ -291,6 +364,8 @@ if (summaryPatient) {
     }
 
 }
+
+
 const dashboard = document.getElementById("total-donors");
 
 if (dashboard) {
@@ -353,6 +428,8 @@ if (dashboard) {
     }
 
 }
+
+
 const bloodRequest =
     JSON.parse(localStorage.getItem("bloodRequest"));
 
@@ -364,6 +441,8 @@ const requestCount =
 if (requestCount) {
     requestCount.textContent = totalRequests;
 }
+
+
 const matchingDonorCount =
     localStorage.getItem("matchingDonorCount") || 0;
 
