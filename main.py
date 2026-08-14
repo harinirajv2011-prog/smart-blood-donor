@@ -143,7 +143,7 @@ class BloodRequest(BaseModel):
     blood_group: str
     city: str
     units_needed: int
-
+    status: str = "Pending"
 
 # ---------------- CREATE BLOOD REQUEST ----------------
 
@@ -154,16 +154,29 @@ def create_blood_request(request: BloodRequest):
 
     query = """
         INSERT INTO blood_requests
-        (patient_name, blood_group, city, units_needed)
-        VALUES (%s, %s, %s, %s)
+        (patient_name, blood_group, city, units_needed, status)
+        VALUES (%s, %s, %s, %s, %s)
     """
 
     values = (
         request.patient_name,
         request.blood_group,
         request.city,
-        request.units_needed
+        request.units_needed,
+        request.status
     )
+
+    cursor.execute(query, values)
+    db.commit()
+
+    request_id = cursor.lastrowid
+
+    cursor.close()
+
+    return {
+        "message": "Blood request created successfully!",
+        "request_id": request_id
+    }
 
     cursor.execute(query, values)
     db.commit()
