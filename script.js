@@ -56,7 +56,7 @@ if (bloodForm) {
         );
 
 
-        fetch("http://127.0.0.1:8000/api/requests", {
+        fetch("https://smart-blood-donor-sl8b.onrender.com/api/requests", {
             method: "POST",
 
             headers: {
@@ -160,7 +160,7 @@ if (donorForm) {
         };
 
 
-        fetch("http://127.0.0.1:8000/api/donors", {
+        fetch("https://smart-blood-donor-sl8b.onrender.com/api/donors", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -211,7 +211,7 @@ if (donorResults) {
     } else {
 
         fetch(
-            "http://127.0.0.1:8000/api/match?blood_group=" +
+            "https://smart-blood-donor-sl8b.onrender.com/api/match?blood_group=" +
             encodeURIComponent(bloodRequest.bloodGroup) +
             "&city=" +
             encodeURIComponent(bloodRequest.location)
@@ -229,10 +229,7 @@ if (donorResults) {
 
         .then(data => {
 
-            const matchedDonors =
-                data.matching_donors.filter(function(donor) {
-                    return donor.available === 1;
-                });
+            const matchedDonors = data.matching_donors;
 
             localStorage.setItem(
                 "matchingDonorCount",
@@ -268,9 +265,6 @@ if (donorResults) {
                     score += 20;
                 }
 
-                if (donor.available === 1) {
-                    score += 10;
-                }
 
 
                 donorResults.innerHTML += `
