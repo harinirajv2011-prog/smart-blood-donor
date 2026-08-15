@@ -181,8 +181,19 @@ if (donorForm) {
             return response.json();
         })
         .then(data => {
-            alert("Donor registered successfully!");
-        })
+
+    const donors =
+        JSON.parse(localStorage.getItem("donors")) || [];
+
+    donors.push(donor);
+
+    localStorage.setItem(
+        "donors",
+        JSON.stringify(donors)
+    );
+
+    alert("Donor registered successfully!");
+})
         .catch(error => {
             console.error(error);
             alert("Unable to register donor. Please make sure the backend is running.");
