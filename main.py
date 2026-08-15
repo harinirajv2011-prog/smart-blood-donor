@@ -160,10 +160,9 @@ def create_blood_request(request: BloodRequest):
 def match_donors(blood_group: str, city: str):
 
     matches = [
-        donor for donor in donors
-        if donor["blood_group"].lower() == blood_group.lower()
-        and donor["city"].lower() == city.lower()
-    ]
+    donor for donor in donors
+    if donor["blood_group"].lower() == blood_group.lower()
+]
 
     return {
         "blood_group": blood_group,
