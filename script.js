@@ -269,12 +269,12 @@ if (donorResults) {
 
                 let score = 70;
 
-                if (
-                    donor.city.toLowerCase() ===
-                    bloodRequest.location.toLowerCase()
-                ) {
-                    score += 20;
-                }
+if (
+    donor.city.trim().toLowerCase() ===
+    bloodRequest.location.trim().toLowerCase()
+) {
+    score = 100;
+}
 
 
 
