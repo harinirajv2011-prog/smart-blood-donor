@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from database import db
 
 app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -11,6 +11,37 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ---------------- DEMO DATA ----------------
+
+donors = [
+    {
+        "id": 1,
+        "name": "Arun",
+        "age": 24,
+        "blood_group": "O+",
+        "phone": "9876543210",
+        "city": "Chennai"
+    },
+    {
+        "id": 2,
+        "name": "Priya",
+        "age": 22,
+        "blood_group": "A+",
+        "phone": "9876543211",
+        "city": "Chennai"
+    },
+    {
+        "id": 3,
+        "name": "Karthik",
+        "age": 26,
+        "blood_group": "B+",
+        "phone": "9876543212",
+        "city": "Coimbatore"
+    }
+]
+
+blood_requests = []
 
 
 # ---------------- HOME ----------------
@@ -31,23 +62,6 @@ def test_api():
     }
 
 
-# ---------------- DATABASE TEST ----------------
-
-@app.get("/api/db-test")
-def database_test():
-    cursor = db.cursor()
-
-    cursor.execute("SELECT 1")
-    result = cursor.fetchone()
-
-    cursor.close()
-
-    return {
-        "message": "Database connected successfully!",
-        "result": result[0]
-    }
-
-
 # ---------------- DONOR MODEL ----------------
 
 class Donor(BaseModel):
@@ -63,32 +77,20 @@ class Donor(BaseModel):
 @app.post("/api/donors")
 def add_donor(donor: Donor):
 
-    cursor = db.cursor()
+    new_donor = {
+        "id": len(donors) + 1,
+        "name": donor.name,
+        "age": donor.age,
+        "blood_group": donor.blood_group,
+        "phone": donor.phone,
+        "city": donor.city
+    }
 
-    query = """
-        INSERT INTO donors
-        (name, age, blood_group, phone, city)
-        VALUES (%s, %s, %s, %s, %s)
-    """
-
-    values = (
-        donor.name,
-        donor.age,
-        donor.blood_group,
-        donor.phone,
-        donor.city
-    )
-
-    cursor.execute(query, values)
-    db.commit()
-
-    donor_id = cursor.lastrowid
-
-    cursor.close()
+    donors.append(new_donor)
 
     return {
         "message": "Donor added successfully!",
-        "donor_id": donor_id
+        "donor": new_donor
     }
 
 
@@ -96,14 +98,6 @@ def add_donor(donor: Donor):
 
 @app.get("/api/donors")
 def get_donors():
-
-    cursor = db.cursor(dictionary=True)
-
-    cursor.execute("SELECT * FROM donors")
-
-    donors = cursor.fetchall()
-
-    cursor.close()
 
     return {
         "donors": donors
@@ -115,24 +109,16 @@ def get_donors():
 @app.get("/api/donors/search")
 def search_donors(blood_group: str, city: str):
 
-    cursor = db.cursor(dictionary=True)
-
-    query = """
-        SELECT * FROM donors
-        WHERE LOWER(blood_group) = LOWER(%s)
-        AND LOWER(city) = LOWER(%s)
-    """
-
-    cursor.execute(query, (blood_group, city))
-
-    donors = cursor.fetchall()
-
-    cursor.close()
+    matches = [
+        donor for donor in donors
+        if donor["blood_group"].lower() == blood_group.lower()
+        and donor["city"].lower() == city.lower()
+    ]
 
     return {
         "blood_group": blood_group,
         "city": city,
-        "donors": donors
+        "donors": matches
     }
 
 
@@ -145,49 +131,26 @@ class BloodRequest(BaseModel):
     units_needed: int
     status: str = "Pending"
 
+
 # ---------------- CREATE BLOOD REQUEST ----------------
 
 @app.post("/api/requests")
 def create_blood_request(request: BloodRequest):
 
-    cursor = db.cursor()
-
-    query = """
-        INSERT INTO blood_requests
-        (patient_name, blood_group, city, units_needed, status)
-        VALUES (%s, %s, %s, %s, %s)
-    """
-
-    values = (
-        request.patient_name,
-        request.blood_group,
-        request.city,
-        request.units_needed,
-        request.status
-    )
-
-    cursor.execute(query, values)
-    db.commit()
-
-    request_id = cursor.lastrowid
-
-    cursor.close()
-
-    return {
-        "message": "Blood request created successfully!",
-        "request_id": request_id
+    new_request = {
+        "id": len(blood_requests) + 1,
+        "patient_name": request.patient_name,
+        "blood_group": request.blood_group,
+        "city": request.city,
+        "units_needed": request.units_needed,
+        "status": request.status
     }
 
-    cursor.execute(query, values)
-    db.commit()
-
-    request_id = cursor.lastrowid
-
-    cursor.close()
+    blood_requests.append(new_request)
 
     return {
         "message": "Blood request created successfully!",
-        "request_id": request_id
+        "request": new_request
     }
 
 
@@ -196,23 +159,15 @@ def create_blood_request(request: BloodRequest):
 @app.get("/api/match")
 def match_donors(blood_group: str, city: str):
 
-    cursor = db.cursor(dictionary=True)
-
-    query = """
-        SELECT * FROM donors
-        WHERE LOWER(blood_group) = LOWER(%s)
-        AND LOWER(city) = LOWER(%s)
-    """
-
-    cursor.execute(query, (blood_group, city))
-
-    donors = cursor.fetchall()
-
-    cursor.close()
+    matches = [
+        donor for donor in donors
+        if donor["blood_group"].lower() == blood_group.lower()
+        and donor["city"].lower() == city.lower()
+    ]
 
     return {
         "blood_group": blood_group,
         "city": city,
-        "matching_donors": donors,
-        "total_matches": len(donors)
+        "matching_donors": matches,
+        "total_matches": len(matches)
     }
